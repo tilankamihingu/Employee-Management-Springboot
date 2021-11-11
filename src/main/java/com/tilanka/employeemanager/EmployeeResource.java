@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/employee")
 public class EmployeeResource {
@@ -16,6 +17,7 @@ public class EmployeeResource {
     public EmployeeResource(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
+
 
     @GetMapping("/all")
     public ResponseEntity<List<Employee>> getAllEmployees(){
@@ -35,9 +37,9 @@ public class EmployeeResource {
         return new ResponseEntity<>(newEmployee, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee){
-        Employee updateEmployee = employeeService.updateEmployee(employee);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee, @PathVariable("id") Long id){
+        Employee updateEmployee = employeeService.updateEmployee(id, employee);
         return new ResponseEntity<>(updateEmployee, HttpStatus.OK);
     }
 
