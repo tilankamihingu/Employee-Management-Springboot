@@ -6,7 +6,9 @@ import com.tilanka.employeemanager.repo.EmployeeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -36,9 +38,9 @@ public class EmployeeService {
                 .orElseThrow(() -> new UserNotFoundException("user by id" + id + "not found" ));
     }
 
-    public void deleteEmployee(Long id){
+    /*public void deleteEmployee(Long id){
         employeeRepo.deleteEmployeeById(id);
-    }
+    }*/
 
 
 
@@ -59,5 +61,15 @@ public class EmployeeService {
         employee.setImageUrl(employee.getImageUrl());
 
         return employeeRepo.save(employee);
+    }
+
+    public void deleteEmployee(Long id) {
+        Employee employee = employeeRepo.findEmployeeById(id)
+                .orElseThrow(() -> new UserNotFoundException("user by id" + id + "not found"));
+
+        employeeRepo.delete(employee);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("delete",Boolean.TRUE);
+
     }
 }
